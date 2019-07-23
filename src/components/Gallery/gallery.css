@@ -1,0 +1,72 @@
+.gallery button {
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: blue;
+	outline: none;
+}
+
+.gallery button:hover {
+	cursor: pointer;
+}
+
+.gallery img {
+	box-shadow: 0 0 20px rgba(0,0,0,0.5);
+	cursor: move;
+	display: none;
+	max-width: 600px;
+	over-flow: auto;
+	position: absolute;
+	z-index: 9998;
+}
+
+.imgToolBar {
+	position: fixed;
+	padding: 0;
+	margin: 0;
+	display: none;
+	z-index: 9998;
+	list-style: none;
+}
+
+.imgToolBar li:hover{
+	cursor: pointer;
+}
+
+.mask {
+	background-color: rgba(0,0,0,0);
+	bottom: 0;
+	display: none;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	transition-duration: 0.5s;
+	z-index: 9997;
+}
+
+.zone {
+	background-color: rgba(255, 100, 255, .3);
+	display: none;
+	height: 70px;
+	position: fixed;
+	width: 150px;
+	z-index: 9999;
+}
+
+.enlarge {
+	display: none;
+	position: fixed;
+	border: 1px solid #666;
+	width: 300px;
+	height: 140px;
+	overflow: hidden;
+}
+
+.enlarge img {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1000px !important;
+	height: 2000px;
+}
