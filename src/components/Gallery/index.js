@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearchMinus, faSearchPlus, faUndo} from '@fortawesome/fontawesome-free-solid';
+import { faAngleLeft, faAngleRight, faUndo} from '@fortawesome/fontawesome-free-solid';
 import './gallery.css';
 
 class Gallery extends Component {
@@ -13,34 +13,53 @@ class Gallery extends Component {
 			y: 0,
 			l: 0,
 			t: 0,
-			deg: 90
+			deg: 90,
+			presentIndex: 0,
 		}
 	}
 
-	showImg = () => {
+	showImg = (e) => {
+		e.stopPropagation();
 		const mask = document.getElementsByClassName('mask')[0];
-		const img = document.getElementsByClassName('test')[0];
+		const img = document.getElementsByClassName('originalPic')[0];
 		const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
 		mask.style.display = 'block';
 		img.style.display = 'block';
 		img.style.transform = 'rotate(0)';
-		img.style.top = (window.innerHeight - img.clientHeight) / 2 + 'px';
+		img.style.top = (window.innerHeight - img.clientHeight) / 2 - 100 + 'px';
 		img.style.left = (window.innerWidth - img.clientWidth) / 2 + 'px';
-		this.setState({
-			deg: 90
-		});
 		imgToolBar.style.display = 'block';
 		imgToolBar.style.top = img.offsetTop + img.clientHeight + 20 + 'px';
-		imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2 + 'px';
+		imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2 - imgToolBar.clientWidth / 2 + 'px';
 	}
 
-	closeImg() {
-		const img = document.getElementsByClassName('test')[0];
+	changeImg = (index, e) => {
+		e.stopPropagation();
+		this.setState({
+			presentIndex: index,
+			deg: 90,
+		}, () => {					// 将打算在 State 更新后再执行的代码作为回调函数放在 setState 的第二个参数即可
+			const img = document.getElementsByClassName('originalPic')[0];
+			const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
+	
+			img.style.transform = 'rotate(0)';
+			img.style.top = imgToolBar.offsetTop - img.clientHeight - 20 + 'px';
+			img.style.left = imgToolBar.offsetLeft - (img.clientWidth - imgToolBar.clientWidth) / 2 + 'px';
+
+		});	
+	}
+
+	closeImg = () => {
+		const img = document.getElementsByClassName('originalPic')[0];
 		const mask = document.getElementsByClassName('mask')[0];
 		const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
 		mask.style.display = 'none';
 		img.style.display = 'none';
 		imgToolBar.style.display = 'none';
+		this.setState({
+			presentIndex: 0,
+			deg: 90,
+		})
 	}
 
 	mouseDown = (e) => {
@@ -48,7 +67,7 @@ class Gallery extends Component {
 		e.stopPropagation();
 		const enlarge = document.getElementsByClassName('enlarge')[0];
 		const zone = document.getElementsByClassName('zone')[0];
-		const dv = document.getElementsByClassName("test")[0];
+		const dv = document.getElementsByClassName("originalPic")[0];
 		zone.style.display = 'none';
 		enlarge.style.display = 'none';
 	    this.setState({
@@ -62,11 +81,10 @@ class Gallery extends Component {
 
 	mouseMove = (e) => {
 		window.onmousemove = (e) => {
-			const zone = document.getElementsByClassName('zone')[0];
 			const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
-			const img = document.getElementsByClassName('test')[0];
+			const img = document.getElementsByClassName('originalPic')[0];
 	  		if (this.state.isDown === false) {
-	  			this.showZone(e);
+	  			this.moveZone(e);
 	  		} else {
 	  			let nx = e.clientX;
 		  		let ny = e.clientY;
@@ -76,10 +94,10 @@ class Gallery extends Component {
 		  		img.style.top = nt + 'px';	
 	  			if (this.state.deg === 90 || this.state.deg === 270) {
 	  				imgToolBar.style.top = img.offsetTop + img.clientHeight + 20 + 'px';
-					imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2 + 'px';
+					imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2  - imgToolBar.clientWidth / 2 + 'px';
 	  			} else {
 					imgToolBar.style.top = img.offsetTop + img.clientHeight + (img.clientWidth - img.clientHeight) / 2 + 20 + 'px';
-					imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2 + 'px';
+					imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2  - imgToolBar.clientWidth / 2 + 'px';
 	  			}
 	  		}
 		};
@@ -94,7 +112,7 @@ class Gallery extends Component {
 
 	rotate = (e) => {
 		e.stopPropagation();
-		const img = document.getElementsByClassName('test')[0];
+		const img = document.getElementsByClassName('originalPic')[0];
 		const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
 		if (this.state.deg === 270) {
 			this.setState({
@@ -113,23 +131,29 @@ class Gallery extends Component {
 		}
 	}
 
-	showZone = (e) => {
+	moveZone = (e) => {
 		const zone = document.getElementsByClassName('zone')[0];
 		const enlarge = document.getElementsByClassName('enlarge')[0];
-		const img = document.getElementsByClassName('test')[0];
+		const img = document.getElementsByClassName('originalPic')[0];
 		const enlargeImg = document.getElementsByClassName('enlargeImg')[0];
 		zone.style.display = 'block';
-		zone.style.left = e.clientX - 75 + 'px';
-		zone.style.top = e.clientY - 35 + 'px';
-		if (this.state.deg === 90 || this.state.deg == 270) {
-			if (zone.offsetLeft + 75 > img.offsetLeft && zone.offsetLeft + 75 < img.offsetLeft + img.clientWidth 
-				&& zone.offsetTop + 35 > img.offsetTop && zone.offsetTop +35 < img.offsetTop + img.clientHeight) {
-				zone.style.left = e.clientX - 75 + 'px';
-				zone.style.top = e.clientY - 35 + 'px';
-				enlarge.style.display = 'block';
-				// enlargeImg.style.width = img.clientWidth * 2 + 'px!important';
-				console.log(`${enlargeImg.width}, ${enlargeImg.height}`);
-				// enlargeImg.style.height = img.clientHeight * 2 + 'px';
+		enlarge.style.display = 'block';
+		zone.style.left = e.clientX - zone.clientWidth / 2 + 'px';
+		zone.style.top = e.clientY - zone.clientHeight / 2 + 'px';
+		if (this.state.deg === 90 || this.state.deg === 270) {
+			if (zone.offsetLeft + zone.clientWidth / 2 > img.offsetLeft && zone.offsetLeft + zone.clientWidth / 2 < img.offsetLeft + img.clientWidth 
+				&& zone.offsetTop + zone.clientHeight / 2 > img.offsetTop && zone.offsetTop +zone.clientHeight / 2 < img.offsetTop + img.clientHeight) {
+				enlargeImg.style.width = img.clientWidth * 2 + 'px';
+				enlargeImg.style.height = img.clientHeight * 2 + 'px';
+				if (this.state.deg === 90) {
+					enlargeImg.style.transform = 'rotate(0deg)';
+					enlargeImg.style.marginTop = 2 * (-zone.offsetTop + img.offsetTop) + 'px';
+					enlargeImg.style.marginLeft = 2 * (-zone.offsetLeft + img.offsetLeft) + 'px';
+				} else {
+					enlargeImg.style.transform = 'rotate(180deg)';
+					enlargeImg.style.marginTop = 2 * (-zone.offsetTop + img.offsetTop) + 'px';
+					enlargeImg.style.marginLeft = 2 * (-zone.offsetLeft + img.offsetLeft) + 'px';
+				}
 				enlarge.style.top = img.clientHeight - enlarge.clientHeight + img.offsetTop + 'px';
 				enlarge.style.left = img.clientWidth + img.offsetLeft + 10 + 'px';
 			} else {
@@ -137,12 +161,22 @@ class Gallery extends Component {
 				enlarge.style.display = 'none';
 			}
 		} else {
-			if (zone.offsetLeft + 75 > img.offsetLeft + (img.clientWidth - img.clientHeight) / 2 && zone.offsetLeft + 75 < img.offsetLeft + img.clientWidth -  (img.clientWidth - img.clientHeight) / 2
-				&& zone.offsetTop + 35 > img.offsetTop - (img.clientWidth - img.clientHeight) / 2 && zone.offsetTop +35 < img.offsetTop + img.clientHeight + (img.clientWidth - img.clientHeight) / 2) {
-				zone.style.left = e.clientX - 75 + 'px';
-				zone.style.top = e.clientY - 35 + 'px';
+			if (zone.offsetLeft + zone.clientWidth / 2 > img.offsetLeft + (img.clientWidth - img.clientHeight) / 2 && zone.offsetLeft + zone.clientWidth / 2 < img.offsetLeft + img.clientWidth -  (img.clientWidth - img.clientHeight) / 2
+				&& zone.offsetTop + zone.clientWidth / 2 > img.offsetTop - (img.clientWidth - img.clientHeight) / 2 && zone.offsetTop +zone.clientHeight / 2 < img.offsetTop + img.clientHeight + (img.clientWidth - img.clientHeight) / 2) {
+				zone.style.left = e.clientX - zone.clientWidth / 2 + 'px';
+				zone.style.top = e.clientY - zone.clientHeight / 2 + 'px';
 				enlarge.style.display = 'block';
-				enlarge.style.backgroundImage = 'url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564369521&di=98ec882928f5db69506fa3a6f3253b2f&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140219%2F20140219160303-1860964840.jpg)';
+				enlargeImg.style.width = img.clientWidth * 2 + 'px';
+				enlargeImg.style.height = img.clientHeight * 2 + 'px';
+				if (this.state.deg === 180) {
+					enlargeImg.style.transform = 'rotate(90deg)';
+					enlargeImg.style.marginLeft = 2 * (-zone.offsetLeft + img.offsetLeft) + 'px';
+					enlargeImg.style.marginTop = 2 * (-zone.offsetTop + img.offsetTop) + 'px';
+				} else {
+					enlargeImg.style.transform = 'rotate(270deg)';
+					enlargeImg.style.marginLeft = 2 * (-zone.offsetLeft + img.offsetLeft) + 'px';
+					enlargeImg.style.marginTop = 2 * (- zone.offsetTop + img.offsetTop) + 'px';
+				}
 				enlarge.style.top = img.clientHeight - enlarge.clientHeight + img.offsetTop + (img.clientWidth - img.clientHeight) / 2 + 'px';
 				enlarge.style.left = img.clientWidth + img.offsetLeft - (img.clientWidth - img.clientHeight) / 2 + 10 + 'px';
 			} else {
@@ -153,7 +187,7 @@ class Gallery extends Component {
 	}
 
 	handOver = (e) => {
-		this.showZone(e);
+		this.moveZone(e);
 	}
 
 	hideEnlarge = (e) => {
@@ -168,27 +202,59 @@ class Gallery extends Component {
 		e.preventDefault();
 	}
 
-	render() {
+	previousPic = (e) => {
+		if (this.state.presentIndex !== 0) {
+			this.changeImg(this.state.presentIndex - 1, e);
+		} else {
+			this.changeImg(this.props.picArr.length - 1, e);
+		}
+	}
+
+	nextPic = (e) => {
+		if (this.state.presentIndex !== this.props.picArr.length - 1) {
+			this.changeImg(this.state.presentIndex + 1, e);	
+		} else {
+			this.changeImg(0, e);
+		}
+	}
+
+	picView = (picArr) => {
+		const picList = picArr.map((picSrc, index) => 
+			<li onClick={(e) => { this.changeImg(index, e)}}><img src={picSrc} alt=''/></li>
+		);
 		return (
-			<div className="gallery">
-				<button onClick={this.showImg}>查看</button>
+			<div className="picView">
 				<div className="mask" onClick={this.closeImg}>
-					<img  className="test" onMouseMove={this.mouseMove} onMouseUp={this.mouseUp} onClick={this.noBuble} src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564369521&di=98ec882928f5db69506fa3a6f3253b2f&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140219%2F20140219160303-1860964840.jpg"/>
-					<ul className="imgToolBar">
-						<li><FontAwesomeIcon icon={faUndo} size="2x" onClick={this.rotate}/></li>
-					</ul>
+					<img  className="originalPic" onMouseEnter={this.zoneInit} onMouseMove={this.mouseMove} onMouseUp={this.mouseUp} onClick={this.noBuble} src={this.props.picArr[this.state.presentIndex]} alt=''/>
+					<div className="imgToolBar">
+						<div className="btnBox">
+							<button><FontAwesomeIcon icon={faAngleLeft} size="2x" onClick={this.previousPic}/></button>
+							<button><FontAwesomeIcon icon={faUndo} size="2x" onClick={this.rotate}/></button>
+							<button><FontAwesomeIcon icon={faAngleRight} size="2x" onClick={this.nextPic}/></button>
+						</div>
+						<ul className="picPreview">{picList}</ul>
+					</div>
 				</div>
 				<div className="enlarge">
-					<img className="enlargeImg" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564369521&di=98ec882928f5db69506fa3a6f3253b2f&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140219%2F20140219160303-1860964840.jpg"/>
+					<img className="enlargeImg" src={this.props.picArr[this.state.presentIndex]} alt=''/>
 				</div>
 				<div className="zone" onMouseMove={this.handOver} onMouseDown={this.mouseDown} onClick={this.noBuble}></div>
+				<button onClick={this.showImg}>查看</button>
 			</div>
 		);
+	}
+
+	render () {
+		return(
+			<div className="gallery">
+				{this.picView(this.props.picArr)}
+			</div>
+		)
 	}
 }
 
 Gallery.propTypes = {
-	src: PropTypes.string,
+	picArr: PropTypes.array,
 }
 
 export default Gallery;
