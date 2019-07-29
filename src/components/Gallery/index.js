@@ -15,38 +15,61 @@ class Gallery extends Component {
 			t: 0,
 			deg: 90,
 			presentIndex: 0,
+			presentArr: [],
 		}
 	}
 
 	showImg = (e) => {
 		e.stopPropagation();
-		const mask = document.getElementsByClassName('mask')[0];
-		const img = document.getElementsByClassName('originalPic')[0];
-		const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
-		mask.style.display = 'block';
-		img.style.display = 'block';
-		img.style.transform = 'rotate(0)';
-		img.style.top = (window.innerHeight - img.clientHeight) / 2 - 100 + 'px';
-		img.style.left = (window.innerWidth - img.clientWidth) / 2 + 'px';
-		imgToolBar.style.display = 'block';
-		imgToolBar.style.top = img.offsetTop + img.clientHeight + 20 + 'px';
-		imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2 - imgToolBar.clientWidth / 2 + 'px';
+		this.setState({
+			presentArr: [0,1,2,3,4],
+		}, () => {
+			const mask = document.getElementsByClassName('mask')[0];
+			const img = document.getElementsByClassName('originalPic')[0];
+			const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
+			mask.style.display = 'block';
+			img.style.display = 'block';
+			img.style.transform = 'rotate(0)';
+			img.style.top = (window.innerHeight - img.clientHeight) / 2 - 100 + 'px';
+			img.style.left = (window.innerWidth - img.clientWidth) / 2 + 'px';
+			imgToolBar.style.display = 'block';
+			imgToolBar.style.top = img.offsetTop + img.clientHeight + 20 + 'px';
+			imgToolBar.style.left = img.offsetLeft + img.clientWidth / 2 - imgToolBar.clientWidth / 2 + 'px';
+		});
 	}
 
 	changeImg = (index, e) => {
 		e.stopPropagation();
-		this.setState({
-			presentIndex: index,
-			deg: 90,
-		}, () => {					// 将打算在 State 更新后再执行的代码作为回调函数放在 setState 的第二个参数即可
-			const img = document.getElementsByClassName('originalPic')[0];
-			const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
-	
-			img.style.transform = 'rotate(0)';
-			img.style.top = imgToolBar.offsetTop - img.clientHeight - 20 + 'px';
-			img.style.left = imgToolBar.offsetLeft - (img.clientWidth - imgToolBar.clientWidth) / 2 + 'px';
-
-		});	
+		if (this.props.picArr.length <= 5) {
+			this.setState({
+				presentIndex: index,
+				deg: 90,
+			}, () => {					// 将打算在 State 更新后再执行的代码作为回调函数放在 setState 的第二个参数即可
+				const img = document.getElementsByClassName('originalPic')[0];
+				const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
+				img.style.transform = 'rotate(0)';
+				img.style.top = imgToolBar.offsetTop - img.clientHeight - 20 + 'px';
+				img.style.left = imgToolBar.offsetLeft - (img.clientWidth - imgToolBar.clientWidth) / 2 + 'px';
+			});	
+		} else {
+			this.setState({
+				presentIndex: index,
+				presentArr: [
+					index - 2 >= 0 ? index - 2 : index - 2 + this.props.picArr.length,
+					index - 1 >= 0 ? index - 1 : index - 1 + this.props.picArr.length,
+					index,
+					index + 1 >= this.props.picArr.length ? index + 1 - this.props.picArr.length : index + 1,
+					index + 2 >= this.props.picArr.length ? index + 2 - this.props.picArr.length : index + 2,
+				],
+				deg: 90,
+			}, () => {					// 将打算在 State 更新后再执行的代码作为回调函数放在 setState 的第二个参数即可
+				const img = document.getElementsByClassName('originalPic')[0];
+				const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
+				img.style.transform = 'rotate(0)';
+				img.style.top = imgToolBar.offsetTop - img.clientHeight - 20 + 'px';
+				img.style.left = imgToolBar.offsetLeft - (img.clientWidth - imgToolBar.clientWidth) / 2 + 'px';
+			})	
+		}
 	}
 
 	closeImg = () => {
@@ -219,8 +242,8 @@ class Gallery extends Component {
 	}
 
 	picView = (picArr) => {
-		const picList = picArr.map((picSrc, index) => 
-			<li onClick={(e) => { this.changeImg(index, e)}}><img src={picSrc} alt=''/></li>
+		const picList = this.state.presentArr.map((item) => 
+			<li onClick={(e) => { this.changeImg(item, e)}}><img src={this.props.picArr[item]} alt=''/></li>
 		);
 		return (
 			<div className="picView">
