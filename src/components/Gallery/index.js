@@ -41,7 +41,6 @@ class Gallery extends Component {
 		}, () => {					// 将打算在 State 更新后再执行的代码作为回调函数放在 setState 的第二个参数即可
 			const img = document.getElementsByClassName('originalPic')[0];
 			const imgToolBar = document.getElementsByClassName('imgToolBar')[0];
-			const 
 			img.style.transform = 'rotate(0)';
 			img.style.top = imgToolBar.offsetTop - img.clientHeight - 20 + 'px';
 			img.style.left = imgToolBar.offsetLeft - (img.clientWidth - imgToolBar.clientWidth) / 2 + 'px';
