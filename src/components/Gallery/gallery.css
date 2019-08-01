@@ -1,54 +1,97 @@
-.gallery button {
+.gallery ul {
+	list-style: none;
+}
+
+.picView>button {
 	background-color: rgba(0,0,0,0);
 	border: none;
 	color: blue;
 	outline: none;
 }
 
-.gallery button:hover {
+.picView button:hover {
 	cursor: pointer;
 }
 
-.gallery img {
-	margin: auto;
-	width: 400px;
+.picView>img {
+	width: 200px;
+	height: 150px;
+	border: 1px solid #000;
+	border-radius: 10px;
 }
 
-.imgBox {
-	background-color: rgba(0,0,0,.05);
-	border-radius: 1rem;
-	box-shadow: 0 0 10px rgba(0,0,0,0.3);
+.picPreview img {
+	width: 150px;
+	height: 100px;
+	z-index: 9999;
+}
+
+.picPreview img:hover {
+	box-shadow: 0 0 15px rgba(255,100,255,.5);
+}
+
+.originalPic {
+	box-shadow: 0 0 20px rgba(0,0,0,0.5);
 	cursor: move;
 	display: none;
-	left: 50%;
+	max-width: 600px;
+	max-height: 600px;
 	over-flow: auto;
-	padding: 30px;
 	position: absolute;
-	top: 50%;
-	transform: translate(-50%, -50%);
 	z-index: 9998;
 }
 
-.imgBox ul {
-	display: flex;
-	list-style: none;
-	justify-content: space-around;
-	margin: 0;
-	padding-top: 2rem;
-}
-
-.imgBox ul li {
-	cursor: pointer;
-	margin: 0;
+.imgToolBar {
+	position: fixed;
 	padding: 0;
+	margin: 0;
+	display: none;
+	z-index: 9998;
+	list-style: none;
 }
 
-.imgPreview {
+.imgToolBar ul {
+	display: flex;
+	justify-content: space-around;
+	padding: 0;
+	margin-top: 10px;
+}
+
+.imgToolBar * {
+	margin: auto;
+}
+
+.imgToolBar li {
+	float: left;
+	padding: 0 .5rem;
+}
+
+.imgToolBar li:hover{
+	cursor: pointer;
+}
+
+.imgToolBar img{
 	display: inline-block;
 }
 
+.btnBox {
+	display: flex;
+	justify-content: space-around;
+}
+
+.btnBox button {
+	background-color: transparent;
+	border: none;
+	color: #888;
+	outline: none;
+}
+
+.btnBox svg:hover{
+	color: #000;
+}
+
 .mask {
-	background-color: rgba(0,0,0,0);
+	background-color: rgba(0,0,0,.1);
 	bottom: 0;
 	display: none;
 	left: 0;
@@ -56,20 +99,34 @@
 	right: 0;
 	top: 0;
 	transition-duration: 0.5s;
+	z-index: 9997;
 }
 
 .zone {
-	background-color: rgba(255, 100, 255, .3);
+	background-color: rgba(0,0,0,.3);
+	border: 1px solid white;
+	box-shadow: 0 0 10px rgba(255,100,255,.5);
 	display: none;
-	height: 70px;
 	position: fixed;
-	width: 150px;
+	width: 160px;
+	height: 100px;
 	z-index: 9999;
 }
 
 .enlarge {
 	display: none;
+	position: fixed;
 	border: 1px solid #666;
-	width: 250px;
-	height: 120px;
+	width: 320px;
+	height: 200px;
+	overflow: hidden;
+}
+
+.enlarge img {
+	display: block;
+	position: absolute;
+	margin-left: -100px;
+	margin-top: -100px;
+	top: 0;
+	left: 0;
 }

@@ -10,25 +10,9 @@ class App extends Component {
   }
 
   render() {
-    const myName = 'Ymy';
-    let information = {
-      name: 'Sherry',
-      age: 23,
-      sex: 'male',
-    }
-    const {name, age} = information;
-    let greet = `Hello ${myName}! You are ${age} years old.`;
-    const arr = [1, 2, 3, 4, 5];
-    const newArr = arr.map((item) => item * 2);
-    console.log(newArr);
     return (
       <div className='background'>
-          
-        <h2>{greet}</h2>
-        <BrowserRouter>
-          <Link to='/login'>Sign in</Link>
-        </BrowserRouter>
-        <Gallery></Gallery>
+        <Gallery picArr={['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564369521&di=98ec882928f5db69506fa3a6f3253b2f&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140219%2F20140219160303-1860964840.jpg', 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563948139355&di=918457ff101b1369d626a88ea5d916a1&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201309%2F17%2F20130917161051_CZAcd.thumb.700_0.jpeg']}></Gallery>
       </div>
     )
   }
