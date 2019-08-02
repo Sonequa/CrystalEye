@@ -140,7 +140,7 @@ class Gallery extends Component {
 		enlarge.style.display = 'block';
 		zone.style.left = e.clientX - zone.clientWidth / 2 + 'px';
 		zone.style.top = e.clientY - zone.clientHeight / 2 + 'px';
-		if (this.state.deg === 90 || this.state.deg == 270) {
+		if (this.state.deg === 90 || this.state.deg === 270) {
 			if (zone.offsetLeft + zone.clientWidth / 2 > img.offsetLeft && zone.offsetLeft + zone.clientWidth / 2 < img.offsetLeft + img.clientWidth 
 				&& zone.offsetTop + zone.clientHeight / 2 > img.offsetTop && zone.offsetTop +zone.clientHeight / 2 < img.offsetTop + img.clientHeight) {
 				enlargeImg.style.width = img.clientWidth * 2 + 'px';
@@ -168,7 +168,7 @@ class Gallery extends Component {
 				enlarge.style.display = 'block';
 				enlargeImg.style.width = img.clientWidth * 2 + 'px';
 				enlargeImg.style.height = img.clientHeight * 2 + 'px';
-				if (this.state.deg == 180) {
+				if (this.state.deg === 180) {
 					enlargeImg.style.transform = 'rotate(90deg)';
 					enlargeImg.style.marginLeft = 2 * (-zone.offsetLeft + img.offsetLeft) + 'px';
 					enlargeImg.style.marginTop = 2 * (-zone.offsetTop + img.offsetTop) + 'px';
@@ -212,12 +212,12 @@ class Gallery extends Component {
 
 	picView = (picArr) => {
 		const picList = picArr.map((picSrc, index) => 
-			<li onClick={(e) => { this.changeImg(index, e)}}><img src={picSrc}/></li>
+			<li onClick={(e) => { this.changeImg(index, e)}}><img src={picSrc} alt='' /></li>
 		);
 		return (
 			<div className="picView">
 				<div className="mask" onClick={this.closeImg}>
-					<img  className="originalPic" onMouseEnter={this.zoneInit} onMouseMove={this.mouseMove} onMouseUp={this.mouseUp} onClick={this.noBuble} src={this.props.picArr[this.state.presentIndex]}/>
+					<img  className="originalPic" onMouseEnter={this.zoneInit} onMouseMove={this.mouseMove} onMouseUp={this.mouseUp} onClick={this.noBuble} src={this.props.picArr[this.state.presentIndex]} alt=''/>
 					<div className="imgToolBar">
 						<div className="btnBox">
 							<button><FontAwesomeIcon icon={faAngleLeft} size="2x" onClick={this.previousPic}/></button>
@@ -228,7 +228,7 @@ class Gallery extends Component {
 					</div>
 				</div>
 				<div className="enlarge">
-					<img className="enlargeImg" src={this.state.presentSrc}/>
+					<img className="enlargeImg" src={this.state.presentSrc} alt=''/>
 				</div>
 				<div className="zone" onMouseMove={this.handOver} onMouseDown={this.mouseDown} onClick={this.noBuble}></div>
 				<button onClick={this.showImg}>查看</button>
