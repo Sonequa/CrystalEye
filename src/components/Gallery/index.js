@@ -22,7 +22,7 @@ class Gallery extends Component {
 	showImg = (e) => {
 		e.stopPropagation();
 		this.setState({
-			presentArr: [0,1,2,3,4],
+			presentArr: this.props.picArr.length > 4 ? [0,1,2,3,4] : [0,1,2,3,4].splice(0, this.props.picArr.length),	// 判断传入的图片 url 数组长度是否大于四个
 		}, () => {
 			const mask = document.getElementsByClassName('mask')[0];
 			const img = document.getElementsByClassName('originalPic')[0];
