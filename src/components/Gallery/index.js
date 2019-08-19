@@ -16,7 +16,9 @@ class Gallery extends Component {
 			deg: 90,
 			presentIndex: 0,
 			presentArr: [],
-		}
+		};
+
+		
 	}
 
 	showImg = (e) => {
@@ -68,7 +70,7 @@ class Gallery extends Component {
 				img.style.transform = 'rotate(0)';
 				img.style.top = imgToolBar.offsetTop - img.clientHeight - 20 + 'px';
 				img.style.left = imgToolBar.offsetLeft - (img.clientWidth - imgToolBar.clientWidth) / 2 + 'px';
-			})	
+			});	
 		}
 	}
 
@@ -82,7 +84,7 @@ class Gallery extends Component {
 		this.setState({
 			presentIndex: 0,
 			deg: 90,
-		})
+		});
 	}
 
 	mouseDown = (e) => {
@@ -90,17 +92,17 @@ class Gallery extends Component {
 		e.stopPropagation();
 		const enlarge = document.getElementsByClassName('enlarge')[0];
 		const zone = document.getElementsByClassName('zone')[0];
-		const dv = document.getElementsByClassName("originalPic")[0];
+		const dv = document.getElementsByClassName('originalPic')[0];
 		zone.style.display = 'none';
 		enlarge.style.display = 'none';
-	    this.setState({
-	      x: e.clientX,
-	      y: e.clientY,
-	      l: dv.offsetLeft,
-	      t: dv.offsetTop,
-	      isDown: true,
-	    });
-  	}
+		this.setState({
+			x: e.clientX,
+			y: e.clientY,
+			l: dv.offsetLeft,
+			t: dv.offsetTop,
+			isDown: true,
+		});
+	}
 
 	mouseMove = (e) => {
 		window.onmousemove = (e) => {
@@ -108,8 +110,8 @@ class Gallery extends Component {
 			const img = document.getElementsByClassName('originalPic')[0];
 	  		if (this.state.isDown === false) {
 	  			this.moveZone(e);
-	  		} else {
-	  			let nx = e.clientX;
+			} else {
+				let nx = e.clientX;
 		  		let ny = e.clientY;
 		  		let nl = nx - (this.state.x - this.state.l);
 		  		let nt = ny - (this.state.y - this.state.t);
@@ -213,13 +215,6 @@ class Gallery extends Component {
 		this.moveZone(e);
 	}
 
-	hideEnlarge = (e) => {
-		const enlarge = document.getElementsByClassName('enlarge')[0];
-		const zone = document.getElementsByClassName('zone')[0];
-		zone.style.display = 'none';
-		enlarge.style.display = 'none';
-	}
-
 	noBuble = (e) => {
 		e.stopPropagation();
 		e.preventDefault();
@@ -243,7 +238,7 @@ class Gallery extends Component {
 
 	picView = (picArr) => {
 		const picList = this.state.presentArr.map((item) => 
-			<li onClick={(e) => { this.changeImg(item, e)}}><img src={this.props.picArr[item]} alt=''/></li>
+			<li key={item} onClick={(e) => { this.changeImg(item, e);}}><img src={picArr[item]} alt=''/></li>
 		);
 		return (
 			<div className="picView">
@@ -272,12 +267,12 @@ class Gallery extends Component {
 			<div className="gallery">
 				{this.picView(this.props.picArr)}
 			</div>
-		)
+		);
 	}
 }
 
 Gallery.propTypes = {
 	picArr: PropTypes.array,
-}
+};
 
 export default Gallery;
