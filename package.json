@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.0.0",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "babel-preset-es2015-ie": "^6.7.0",
+    "core-js": "3",
     "eslint-config-standard": "^13.0.1",
     "eslint-config-standard-react": "^8.0.0",
     "eslint-plugin-es": "^1.4.0",
@@ -25,7 +28,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "babel": "babel index.js",
+    "build": "babel src --out-dir lib",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -47,7 +51,10 @@
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/preset-env": "^7.5.5",
+    "babel-plugin-transform-es5-property-mutators": "^6.24.1",
     "eslint": "^6.2.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
