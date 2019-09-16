@@ -1,3 +1,6 @@
 {
-    "eslint.runtime": "/"
+    "eslint.enable": true,
+    "eslint.workingDirectories": [
+        "./src"
+    ]
 }

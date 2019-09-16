@@ -1,75 +1,49 @@
 module.exports = {
-    'env': {
-        'browser': true,
-        'es6': true,
-        'node': true
+  'env': {
+    'browser': true,
+    'es6': true,
+  },
+  'extends': [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    'google',
+  ],
+  'globals': {
+    'Atomics': 'readonly',
+    'SharedArrayBuffer': 'readonly',
+  },
+  'parserOptions': {
+    'ecmaFeatures': {
+      'jsx': true,
     },
-    'extends': [
-        'eslint:recommended',
-        'plugin:react/recommended',
-    ],
-    'globals': {
-        'Atomics': 'readonly',
-        'SharedArrayBuffer': 'readonly'
-    },
-    'parser': 'babel-eslint',
-    'parserOptions': {
-        'ecmaFeatures': {
-            'jsx': true
-        },
-        'ecmaVersion': 2018,
-        'sourceType': 'module'
-    },
-    'plugins': [
-        'react',
-        'es'
-    ],
-    'rules': {
-        'indent': [
-            'warn',
-            4
-        ],
-        'linebreak-style': [
-            'off',
-            'windows'
-        ],
-        'no-mixed-spaces-and-tabs': ["off", "smart-tabs"],
-        'quotes': [
-            'error',
-            'single'
-        ],
-        'semi': [
-            'error',
-            'always'
-        ],
-        "es/no-async-iteration": "error",
-        "es/no-malformed-template-literals": "error",
-        "es/no-regexp-lookbehind-assertions": "error",
-        "es/no-regexp-named-capture-groups": "error",
-        "es/no-regexp-s-flag": "error",
-        "es/no-regexp-unicode-property-escapes": "error"
-    },
-    "settings": {
-        "react": {
-          "createClass": "createReactClass", // Regex for Component Factory to use,
-                                             // default to "createReactClass"
-          "pragma": "React",  // Pragma to use, default to "React"
-          "version": "detect", // React version. "detect" automatically picks the version you have installed.
-                               // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
-                               // default to latest and warns if missing
-                               // It will default to "detect" in the future
-          "flowVersion": "0.53" // Flow version
-        },
-        "propWrapperFunctions": [
-            // The names of any function used to wrap propTypes, e.g. `forbidExtraProps`. If this isn't set, any propTypes wrapped in a function will be skipped.
-            "forbidExtraProps",
-            {"property": "freeze", "object": "Object"},
-            {"property": "myFavoriteWrapper"}
-        ],
-        "linkComponents": [
-          // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
-          "Hyperlink",
-          {"name": "Link", "linkAttribute": "to"}
-        ]
+    'ecmaVersion': 2018,
+    'sourceType': 'module',
+  },
+  'parser': 'babel-eslint',
+  'plugins': [
+    'react',
+  ],
+  'rules': {
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
       }
+    ],
+    "max-len": ["error", { "code": 120 }],
+    "no-tabs": ["off"],
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
+    "require-jsdoc": ["error", {
+      "require": {
+        "FunctionDeclaration": false,
+        "MethodDefinition": true,
+        "ClassDeclaration": false,
+        "ArrowFunctionExpression": false,
+        "FunctionExpression": false
+      }
+    }],
+    "linebreak-style": ["error", "windows"],
+    "object-curly-spacing": ["error", "always"],
+  },
 };
