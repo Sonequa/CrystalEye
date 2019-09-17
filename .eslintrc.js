@@ -31,7 +31,8 @@ module.exports = {
         "SwitchCase": 1
       }
     ],
-    "max-len": ["error", { "code": 120 }],
+    "max-len": ["error", { "code": 150 }],
+    "no-invalid-this": ["off"],
     "no-tabs": ["off"],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
     "require-jsdoc": ["error", {

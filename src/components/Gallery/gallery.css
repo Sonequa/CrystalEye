@@ -13,16 +13,9 @@
 	cursor: pointer;
 }
 
-.picView>img {
-	width: 200px;
-	height: 150px;
-	border: 1px solid #000;
-	border-radius: 10px;
-}
-
 .picPreview img {
-	width: 150px;
-	height: 100px;
+	width: 120px;
+	height: 80px;
 	z-index: 9999;
 }
 
@@ -33,10 +26,9 @@
 .originalPic {
 	box-shadow: 0 0 20px rgba(0,0,0,0.5);
 	cursor: move;
+	max-width: 600px;
+	max-height: 600px;
 	display: none;
-	max-width: 800px;
-	max-height: 800px;
-	
 	position: absolute;
 	z-index: 9998;
 }
@@ -108,7 +100,7 @@
 	box-shadow: 0 0 10px rgba(255,100,255,.5);
 	display: none;
 	position: fixed;
-	width: 160px;
+	width: 150px;
 	height: 100px;
 	z-index: 9999;
 }
@@ -117,7 +109,7 @@
 	display: none;
 	position: fixed;
 	border: 1px solid #666;
-	width: 320px;
+	width: 300px;
 	height: 200px;
 	overflow: hidden;
 }
