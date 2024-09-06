@@ -16,7 +16,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "font-awesome": "^4.7.0",
-    "less-watch-compiler": "^1.13.0",
+    "less-watch-compiler": "^1.14.7",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-app-polyfill": "^1.0.2",
